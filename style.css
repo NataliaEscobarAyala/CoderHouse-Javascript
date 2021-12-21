@@ -1,0 +1,22 @@
+header{
+    background-color: lightcyan;
+    color: lightgreen;
+    padding: 20px;
+    text-align: center;
+    border-bottom: lightseagreen;
+    margin-bottom: 10px;
+}
+
+#contenedor{
+    width: 90%;
+    margin: auto;
+    padding: 10px;
+}
+#caja{
+    background-color: lightyellow;
+    color: black;
+    width: 500px;
+    height: 100px;
+    padding: 50px;
+    text-align: center;
+}
