@@ -20,23 +20,53 @@ data.push(
         "total": total
     }
 );
-let id_row="row"+cant;
-let fila= "<tr id="+id_row+"><td>"+nombre+"</td><td>"+precio+"</td><td>"+cantidad+"</td><td>"+total+"</td><td><a href=´#´ class=´btn btn-danger´ onclick=´eliminar("+cant+")´;eliminar</a><a href=´#´ class= btn btn-warning´ onclick=´cantidad("+cant+")¨;Cantidad</a></td></tr>";
-$("#lista").append(fila);
-$("#nombre").val("");
-$("#precio").val("");
-$("#cantidad").val("");
-$("#nombre").focus();
-cant++;
-// sumar();
-
+let id_row='row'+cant;
+  let fila='<tr id='+id_row+'><td>'+nombre+'</td><td>'+precio+'</td><td>'+cantidad+'</td><td>'+total+'</td><td><a href="#" class="btn btn-danger" onclick="eliminar('+cant+')";>Eliminar</a><a href="#" class="btn btn-danger" onclick="cantidad('+cant+')";>Cantidad</a></td></tr>';
+  //agregar fila a la tabla
+  $("#lista").append(fila);
+  $("#nombre").val('');
+  $("#precio").val('');
+  $("#cantidad").val('');
+  $("#nombre").focus();
+  cant++;
+  sumar();
 }
-
-
 function save (){
 
 }
+function sumar(){
+    let tot=0;
+    for(x of data){
+        tot=tot+x.total;
+    }
+    document.getElementById("total").innerHTML="Total "+tot;
+
+}
+function cantidad(row){
+    var canti=parseInt(prompt("Nueva cantidad"));
+    data[row].cantidad=canti;
+    data[row].total=data[row].cantidad*data[row].precio;
+    var filaid=document.getElementById("row"+row);
+    celda=filaid.getElementsByTagName('td');
+    celda[2].innerHTML=canti;
+    celda[3].innerHTML= data[row].total;
+    console.log(data);
+    sumar();
+}
 
 
+function eliminar(row){
+    $("#row"+row).remove();
+    let i=0;
+    let pos=0;
+    for (x of data){
+        if(x.id==row){
+            pos=i;
+        }
+        i++;
+    }
+    data.splice(pos,1);
+    sumar();
+}
 
 

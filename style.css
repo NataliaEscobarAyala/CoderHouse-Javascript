@@ -1,10 +1,12 @@
 header{
-    background-color: lightcyan;
-    color: lightgreen;
-    padding: 20px;
+    color: black;
+    padding: 100px auto;
     text-align: center;
     border-bottom: lightseagreen;
     margin-bottom: 10px;
+    background-size: cover;
+    height: 400px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 #contenedor{
@@ -15,8 +17,14 @@ header{
 #caja{
     background-color: lightyellow;
     color: black;
-    width: 500px;
+    width: 400px;
     height: 100px;
     padding: 50px;
     text-align: center;
+    margin-left: 450px;
+    margin-top: 100px;
+}
+
+.col-6{
+    color: beige;
 }
