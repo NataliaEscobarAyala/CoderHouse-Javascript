@@ -28,3 +28,27 @@ header{
 .col-6{
     color: beige;
 }
+
+#lista{
+    background-color: black;
+}
+
+#botones a {
+
+    background-color: rgb(150, 189, 150);
+    color: ivory;
+    padding: 10px 15px;
+    text-decoration: none;
+
+}
+#capa{
+margin: 10px auto;
+width: 400px;
+}
+main{
+    height: 400px;
+}
+
+footer{
+    height: 300px;
+}
