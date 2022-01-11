@@ -1,13 +1,13 @@
-function fadeOut(){
-     $("#caja").fadeOut();
+// function fadeOut(){
+//      $("#caja").fadeOut();
     
-}
-function fadeIn(){
-    $("#caja").fadeIn();
+// }
+// function fadeIn(){
+//     $("#caja").fadeIn();
    
-}
+// }
 
-function fadeTog(){
-    $("#caja").fadeToggle();
+// function fadeTog(){
+//     $("#caja").fadeToggle();
    
-}
+// }

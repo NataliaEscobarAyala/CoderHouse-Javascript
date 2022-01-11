@@ -1,72 +1,126 @@
-let boton=document.getElementById("agregar");
-let guardar=document.getElementById("guardar");
-let lista=document.getElementById("lista");
-let data=[];
-let cant=0;
-boton.addEventListener("click", agregar);
-guardar.addEventListener("click",save)
+const Clickbutton = document.querySelectorAll('.button')
+const tbody = document.querySelector('.tbody')
+let carrito = []
 
-function agregar(){
-    let nombre= document.getElementById("nombre").value;
-    let precio=parseFloat(document.getElementById("precio").value);
-    let cantidad=parseFloat(document.getElementById("cantidad").value);
-let total= precio*cantidad;
-data.push(
-    {
-        "id": cant,
-        "nombre": nombre,
-        "precio": precio,
-        "cantidad": cantidad,
-        "total": total
+Clickbutton.forEach(btn => {
+  btn.addEventListener('click', addToCarritoItem)
+})
+
+function addToCarritoItem(e){
+  const button = e.target
+  const item = button.closest('.card')
+  const itemid = item.querySelector('.id').textContent;
+  const itemTitle = item.querySelector('.card-title').textContent;
+  const itemPrice = item.querySelector('.precio').textContent;
+  const itemImg = item.querySelector('.card-img-top').src;
+
+  const newItem = {
+    id: itemid,
+    title: itemTitle,
+    precio: itemPrice,
+    img: itemImg,
+    cantidad: 1
+  }
+  addItemCarrito(newItem)
+
+}
+
+function addItemCarrito(newItem){
+  const InputElemento = tbody.getElementsByClassName('input__element')
+
+
+for (let index = 0; index < carrito.length; index++) {
+  if(carrito[index].id === newItem.id){
+    carrito[index].cantidad ++;
+    const inputValue = InputElemento[index];
+    inputValue.value++;
+    CarritoTotal()
+    return null;
+  }
+}
+
+  carrito.push(newItem)
+  renderCarrito()
+}
+
+function renderCarrito(){
+tbody.innerHTML= " "
+carrito.map(item => {
+const tr = document.createElement('tr')
+tr.classList.add('itemCarrito')
+const Content = `
+    
+<th scope="row">1</th>
+        <td class="table__productos">
+        <span style="display: none;" class="id">${item.id}</span>
+          <img src=${item.img}  alt="">
+          <h6 class="title">${item.title}</h6>
+        </td>
+        <td class="table__price"><p>${item.precio}</p></td>
+        <td class="table__cantidad">
+          <input type="number" min="1" value=${item.cantidad} class="input__element">
+          <button class="delete btn btn-danger">x</button>
+        </td>
+`
+tr.innerHTML= Content;
+tbody.append(tr)
+tr.querySelector(".delete").addEventListener('click', removeItemCarrito)
+tr.querySelector(".input__element").addEventListener('change', sumaCantidad)
+})
+CarritoTotal()
+}
+
+function CarritoTotal(){
+  let Total = 0;
+  const itemCartTotal = document.querySelector('.itemCartTotal')
+  carrito.forEach((item) => {
+    const precio = Number(item.precio.replace("$", ''))
+    Total = Total + precio*item.cantidad
+  })
+
+  itemCartTotal.innerHTML = `Total $${Total}`
+  addLocalStorage()
+}
+
+function removeItemCarrito(e){
+  const buttonDelete = e.target
+  const tr = buttonDelete.closest(".ItemCarrito")
+  const id = tr.querySelector('.id').textContent;
+  
+
+  for(let i=0; i<carrito.length ; i++){
+
+    if(carrito[i].id === id){
+      carrito.splice(i, 1)
     }
-);
-let id_row='row'+cant;
-  let fila='<tr id='+id_row+'><td>'+nombre+'</td><td>'+precio+'</td><td>'+cantidad+'</td><td>'+total+'</td><td><a href="#" class="btn btn-danger" onclick="eliminar('+cant+')";>Eliminar</a><a href="#" class="btn btn-danger" onclick="cantidad('+cant+')";>Cantidad</a></td></tr>';
-  //agregar fila a la tabla
-  $("#lista").append(fila);
-  $("#nombre").val('');
-  $("#precio").val('');
-  $("#cantidad").val('');
-  $("#nombre").focus();
-  cant++;
-  sumar();
+  }
+  tr.remove()
+  CarritoTotal()
 }
-function save (){
 
-}
-function sumar(){
-    let tot=0;
-    for(x of data){
-        tot=tot+x.total;
+function sumaCantidad(e){
+  const sumaInput  = e.target
+  const tr = sumaInput.closest(".ItemCarrito")
+
+  const id = tr.querySelector('.id').textContent;
+  carrito.forEach(item => {
+    if(item.id === id){
+      sumaInput.value < 1 ?  (sumaInput.value = 1) : sumaInput.value;
+      item.cantidad = sumaInput.value;
+
+      CarritoTotal()
     }
-    document.getElementById("total").innerHTML="Total "+tot;
-
-}
-function cantidad(row){
-    var canti=parseInt(prompt("Nueva cantidad"));
-    data[row].cantidad=canti;
-    data[row].total=data[row].cantidad*data[row].precio;
-    var filaid=document.getElementById("row"+row);
-    celda=filaid.getElementsByTagName('td');
-    celda[2].innerHTML=canti;
-    celda[3].innerHTML= data[row].total;
-    console.log(data);
-    sumar();
+  })
 }
 
-
-function eliminar(row){
-    $("#row"+row).remove();
-    let i=0;
-    let pos=0;
-    for (x of data){
-        if(x.id==row){
-            pos=i;
-        }
-        i++;
-    }
-    data.splice(pos,1);
-    sumar();
+function addLocalStorage(){
+  localStorage.setItem('carrito', JSON.stringify(carrito))
 }
 
-
+window.onload = function(){
+  const storage = JSON.parse(localStorage.getItem("carrito"))
+  if (storage) {
+    carrito = storage;
+    renderCarrito()
+  }
+}
