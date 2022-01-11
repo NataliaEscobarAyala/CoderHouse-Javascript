@@ -26,8 +26,14 @@ function addToCarritoItem(e){
 }
 
 function addItemCarrito(newItem){
-  const InputElemento = tbody.getElementsByClassName('input__element')
+  const alert = document.querySelector('.alert')
+  setTimeout( function(){
+    alert.classList.add('hide')
+  }, 2000)
+    alert.classList.remove('hide')
 
+
+  const InputElemento = tbody.getElementsByClassName('input__element')
 
 for (let index = 0; index < carrito.length; index++) {
   if(carrito[index].id === newItem.id){
@@ -94,6 +100,12 @@ function removeItemCarrito(e){
       carrito.splice(i, 1)
     }
   }
+  const alert = document.querySelector('.remove')
+
+  setTimeout( function(){
+    alert.classList.add('remove')
+  }, 2000)
+    alert.classList.remove('remove')
   tr.remove()
   CarritoTotal()
 }

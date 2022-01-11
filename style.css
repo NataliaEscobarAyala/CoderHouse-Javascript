@@ -56,7 +56,7 @@ footer{
 body{
     background-color: black;
 }
-header {
+header, .alert {
     z-index: 100;
 }
 
@@ -126,4 +126,8 @@ article{
     padding: 35px;
     background: white;
 
+}
+
+.hide, .remove{
+    display: none;
 }
